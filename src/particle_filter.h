@@ -20,21 +20,39 @@ struct Particle {
 	double weight;
 };
 
+struct ParticleNoise {
+	double x, y, theta;
+};
+
+class ParticleNoiseGenerator {
+private:
+	std::default_random_engine gen_;
+	std::normal_distribution<double> N_x_init_;
+	std::normal_distribution<double> N_y_init_;
+	std::normal_distribution<double> N_theta_init_;
+public:
+	ParticleNoiseGenerator(double std_pos[]) : N_x_init_(0, std_pos[0]), N_y_init_(0, std_pos[1]), N_theta_init_(0, std_pos[2]){}
+
+	ParticleNoise GenerateNoise();
+};
 
 
 class ParticleFilter {
-	
+private:
 	// Number of particles to draw
 	int num_particles; 
-	
-	
-	
+
 	// Flag, if filter is initialized
 	bool is_initialized;
 	
 	// Vector of weights of all particles
 	std::vector<double> weights;
-	
+
+	// Counter for generating particle Id
+	int particle_id_gen;
+
+	// Noise generator
+	ParticleNoiseGenerator noise_gen_;
 public:
 	
 	// Set of current particles
@@ -42,7 +60,7 @@ public:
 
 	// Constructor
 	// @param M Number of particles
-	ParticleFilter() : num_particles(0), is_initialized(false) {}
+	ParticleFilter(double std_pos[]) : num_particles(0), is_initialized(false), noise_gen_(std_pos) {}
 
 	// Destructor
 	~ParticleFilter() {}
