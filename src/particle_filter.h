@@ -48,9 +48,6 @@ private:
 	// Vector of weights of all particles
 	std::vector<double> weights;
 
-	// Counter for generating particle Id
-	int particle_id_gen;
-
 	// Noise generator
 	ParticleNoiseGenerator noise_gen_;
 public:
