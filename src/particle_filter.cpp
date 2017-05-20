@@ -15,15 +15,31 @@
 
 const static int NUM_PARTICLES = 300;
 
-ParticleNoiseGenerator::ParticleNoiseGenerator(double std_pos[], double x, double y, double theta) {
-    dist_x_ = std::normal_distribution<double>(x, std_pos[0]);
-    dist_y_ = std::normal_distribution<double>(y, std_pos[1]);
-    dist_theta_ = std::normal_distribution<double>(theta, std_pos[2]);
-}
+/**
+ * Generate random noise based on particle's position
+ */
+class ParticleNoiseGenerator {
+private:
+    std::default_random_engine gen_;
+    std::normal_distribution<double> dist_x_;
+    std::normal_distribution<double> dist_y_;
+    std::normal_distribution<double> dist_theta_;
+public:
+    struct ParticleNoise {
+        double x, y, theta;
+    };
 
-ParticleNoise ParticleNoiseGenerator::GenerateNoise() {
-    return {dist_x_(gen_), dist_y_(gen_), dist_theta_(gen_)};
-}
+    ParticleNoiseGenerator(double std_pos[], double x, double y, double theta) {
+        dist_x_ = std::normal_distribution<double>(x, std_pos[0]);
+        dist_y_ = std::normal_distribution<double>(y, std_pos[1]);
+        dist_theta_ = std::normal_distribution<double>(theta, std_pos[2]);
+    }
+
+    ParticleNoise GenerateNoise() {
+        return {dist_x_(gen_), dist_y_(gen_), dist_theta_(gen_)};
+    }
+};
+
 
 void ParticleFilter::init(double x, double y, double theta, double std[]) {
     num_particles = NUM_PARTICLES;

@@ -20,25 +20,6 @@ struct Particle {
 	double weight;
 };
 
-struct ParticleNoise {
-	double x, y, theta;
-};
-
-/**
- * Generate random noise based on particle's position
- */
-class ParticleNoiseGenerator {
-private:
-	std::default_random_engine gen_;
-	std::normal_distribution<double> dist_x_;
-	std::normal_distribution<double> dist_y_;
-	std::normal_distribution<double> dist_theta_;
-public:
-	ParticleNoiseGenerator(double std_pos[], double x, double y, double theta);
-	ParticleNoise GenerateNoise();
-};
-
-
 class ParticleFilter {
 private:
 	// Number of particles to draw
