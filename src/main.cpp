@@ -20,19 +20,17 @@ using namespace std;
 int main() {
 	
 	// parameters related to grading.
-	int time_steps_before_lock_required = 100; // number of time steps before accuracy is checked by grader.
-	double max_runtime = 45; // Max allowable runtime to pass [sec]
-	double max_translation_error = 1; // Max allowable translation error to pass [m]
-	double max_yaw_error = 0.05; // Max allowable yaw error [rad]
-
-
+	const int time_steps_before_lock_required = 100; // number of time steps before accuracy is checked by grader.
+    const double max_runtime = 45; // Max allowable runtime to pass [sec]
+    const double max_translation_error = 1; // Max allowable translation error to pass [m]
+    const double max_yaw_error = 0.05; // Max allowable yaw error [rad]
 
 	// Start timer.
-	int start = clock();
+	const int start = clock();
 	
 	//Set up parameters here
-	double delta_t = 0.1; // Time elapsed between measurements [sec]
-	double sensor_range = 50; // Sensor range [m]
+	const double delta_t = 0.1; // Time elapsed between measurements [sec]
+	const double sensor_range = 50; // Sensor range [m]
 	
 	/*
 	 * Sigmas - just an estimate, usually comes from uncertainty of sensor, but
@@ -40,7 +38,7 @@ int main() {
 	 * these uncertainties directly.
 	 */
 	double sigma_pos [3] = {0.3, 0.3, 0.01}; // GPS measurement uncertainty [x [m], y [m], theta [rad]]
-	double sigma_landmark [2] = {0.3, 0.3}; // Landmark measurement uncertainty [x [m], y [m]]
+    double sigma_landmark [2] = {0.3, 0.3}; // Landmark measurement uncertainty [x [m], y [m]]
 
 	// noise generation
 	default_random_engine gen;
@@ -73,7 +71,7 @@ int main() {
 	
 	// Run particle filter!
 	int num_time_steps = position_meas.size();
-	ParticleFilter pf;
+	ParticleFilter pf(sigma_pos);
 	double total_error[3] = {0,0,0};
 	double cum_mean_error[3] = {0,0,0};
 	
